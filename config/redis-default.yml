@@ -1,0 +1,14 @@
+:development: 
+#  :password: e89da64b29cf622e7c0fa545b537d7
+  :host: localhost
+  :port: "6379"
+  :db: 1
+  :timeout: 5
+  :thread_safe: true
+:production: 
+#  :password: e89da64b29cf622e7c0fa545b537d7
+  :host: localhost
+  :port: "6379"
+  :db: 0
+  :timeout: 5
+  :thread_safe: true

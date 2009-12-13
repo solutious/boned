@@ -1,0 +1,6 @@
+redis.yml
+config.ru
+dump.rdb
+redis-server.conf
+log
+tmp

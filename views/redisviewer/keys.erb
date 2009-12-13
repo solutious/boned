@@ -1,0 +1,12 @@
+<% @keys.each do |key| %>
+  <div class="key">
+    <% kind = key_kind(key) %>
+    <% if kind == 'string' %> 
+      <a href="<%= root_path %>/get/<%= key %>"><%= key %></a> <%= (kind) %>
+    <% elsif kind == 'set' %>
+      <a href="<%= root_path %>/smembers/<%= key %>"><%= key %></a> <%= (kind) %>
+    <% elsif kind == 'list' %>
+      <a href="<%= root_path %>/list/<%= key %>"><%= key %></a> <%= (kind) %>
+    <% end %>
+  </div>
+<% end %>

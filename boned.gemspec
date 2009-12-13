@@ -13,7 +13,7 @@
   s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.rdoc"]
   s.require_paths = %w[lib]
   
-  s.executables = %w[bone]
+  s.executables = %w[boned]
   
   # = MANIFEST =
   # git ls-files

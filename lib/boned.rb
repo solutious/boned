@@ -56,7 +56,7 @@ module Boned
   # * +base+ path where config dir lives
   # * +env one of: :development, :production
   # Returns a Hash: conf[:mongo][:host], ...
-  def self.load_config(base=BONED_HOME, env=:development)
+  def self.load_config(base=Dir.pwd, env=:development)
     @conf = {}                       
     [:redis].each do |n|
       Boned.ld "LOADING CONFIG: #{n}"

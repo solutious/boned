@@ -13,9 +13,10 @@ unless defined?(BONED_HOME)
 end
 
 module Boned
+  APIVERSION = 'v1'.freeze unless defined?(APIVERSION)
   module VERSION
     MAJOR = 0
-    MINOR = 1
+    MINOR = 2
     TINY  = 0
     PATCH = '001'
     def self.inspect; [to_s, PATCH].join('.'); end

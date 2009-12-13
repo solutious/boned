@@ -37,6 +37,7 @@ class Boned::CLI < Drydock::Command
   
   def server_opts
     port = @global.port || Boned::Server::DEFAULT_PORT
+    config = @global.rackup || File.join(Dir.pwd, "config.ru")
     @server_opts ||= {
       :chdir                => Dir.pwd,
       :environment          => @global.environment || 'development',
@@ -50,7 +51,7 @@ class Boned::CLI < Drydock::Command
       :require              => [],
       :wait                 => Thin::Controllers::Cluster::DEFAULT_WAIT_TIME,
       :backend              => "Boned::Server",
-      :rackup               => "config.ru",
+      :rackup               => config,
       :daemonize            => @global.daemon || false
     }
   end

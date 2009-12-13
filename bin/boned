@@ -28,6 +28,12 @@ class Boned::CLI::Definition
   
   default :info
   
+  global :V, :version, "Display version" do
+    puts "Boned: #{Boned::VERSION} (api: #{Boned::APIVERSION})"
+    exit
+  end
+  
+  global :R, :rackup, String, "Specify a rackup file"
   global :e, :environment, String, "Rack environment"
   global :v, :verbose, "Increase output" do; 1 end
   global :d, :daemon, "Run as a daemon"
@@ -40,6 +46,7 @@ class Boned::CLI::Definition
   command :start => Boned::CLI
   command :stop => Boned::CLI
   command :info => Boned::CLI
+  
 end
 
   

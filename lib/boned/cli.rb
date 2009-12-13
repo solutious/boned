@@ -5,7 +5,7 @@ class Boned::CLI < Drydock::Command
   attr_accessor :exit_code
   
   def init
-    Boned.load_config BASE_PATH, :development
+    Boned.load_config Dir.pwd, :development
     Boned.connect
   end
   

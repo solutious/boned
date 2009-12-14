@@ -3,30 +3,29 @@
 **Bones it!**
 
 
-== Running
+## Running
     
     $ redis-server config/redis-server.conf
     $ boned start
     
     
-== Installation
+## Installation
 
     $ sudo gem install boned
-    
 
-== More Information
+## More Information
 
 
-== Credits
+## Credits
 
 * Delano Mandelbaum (http://solutious.com)
 
 
-== Thanks 
+## Thanks 
 
 * Kalin Harvey for the early feedback. 
 
 
-== License
+## License
 
 See LICENSE.txt

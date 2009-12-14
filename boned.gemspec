@@ -10,7 +10,7 @@
   
   s.extra_rdoc_files = %w[README.md LICENSE.txt CHANGES.txt]
   s.has_rdoc = true
-  s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.rdoc"]
+  s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.md"]
   s.require_paths = %w[lib]
   
   s.executables = %w[boned]

@@ -1,4 +1,4 @@
-## Bone - 0.2 ##
+## Boned - 0.2 ##
 
 **Bones it!**
 
@@ -12,6 +12,9 @@
 ## Installation
 
     $ sudo gem install boned
+
+You also need to install [redis](http://code.google.com/p/redis/). 
+
 
 ## More Information
 

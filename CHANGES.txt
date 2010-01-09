@@ -3,7 +3,7 @@ BONED, CHANGES
 #### 0.2.2 (2010-01-08) ###############################
 
 * FIXED: Fix for stopping redis
-* CHANGE: 
+* CHANGE: Run redis in daemon mode
 
 #### 0.2.1 (2010-01-08) ###############################
 

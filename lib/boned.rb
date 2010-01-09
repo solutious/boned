@@ -70,7 +70,7 @@ module Boned
     conf_path = File.join(BONED_HOME, 'config', 'redis-server.conf')
     ld "REDIS SERVER CONF: #{conf_path}"
     @redis_thread = Thread.new do
-      system 'redis-server', conf_path
+      Rye.shell 'redis-server', conf_path
     end
     sleep 2  # Give redis time to start. 
   end

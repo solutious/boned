@@ -22,6 +22,11 @@ class Boned::CLI < Drydock::Command
     Boned::Controllers::Controller.new(server_opts).stop 
   end
   
+  def stop_redis
+    Boned.connect(false)
+    Boned.stop_redis
+  end
+  
   def info
     require 'yaml'
     if Boned.service_available?('127.0.0.1', server_opts[:port])

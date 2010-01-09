@@ -78,7 +78,7 @@ module Boned
   def self.stop_redis
     ld "SHUTDOWN REDIS #{redis_available?}"
     ld @redis.inspect
-    @redis.shutdown if !@redis.nil?  && redis_available? rescue nil
+    @redis.shutdown if !@redis.nil?  && redis_available? 
     return if @redis_thread.nil? || !@redis_thread.alive?
     @redis_thread.join
   end

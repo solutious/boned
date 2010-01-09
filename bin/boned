@@ -45,6 +45,7 @@ class Boned::CLI::Definition
   
   command :start => Boned::CLI
   command :stop => Boned::CLI
+  command :stop_redis => Boned::CLI
   command :info => Boned::CLI
   
 end

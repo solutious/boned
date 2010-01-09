@@ -18,11 +18,13 @@
   # = MANIFEST =
   # git ls-files
   s.files = %w(
+  CHANGES.txt
   LICENSE.txt
   README.md
   Rakefile
   bin/boned
   boned.gemspec
+  config.ru
   config/redis-default.yml
   config/redis-server-default.conf
   config/stella/api-set.rb

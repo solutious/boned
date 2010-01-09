@@ -1,5 +1,12 @@
 BONED, CHANGES
 
+#### 0.2.1 (2010-01-08) ###############################
+
+* FIXED: Missing config.ru error
+* FIXED: Redis available check
+* CHANGE: Use BONED_REDIS variable instead of redis.yml file
+
+
 #### 0.1.0 (2009-12-13) ###############################
 
 Initial release

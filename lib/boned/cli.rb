@@ -5,7 +5,6 @@ class Boned::CLI < Drydock::Command
   attr_accessor :exit_code
   
   def init
-    Boned.load_config Dir.pwd, :development
     Boned.connect
   end
   
@@ -37,7 +36,7 @@ class Boned::CLI < Drydock::Command
   
   def server_opts
     port = @global.port || Boned::Server::DEFAULT_PORT
-    config = @global.rackup || File.join(Dir.pwd, "config.ru")
+    config = @global.rackup || File.join(BONED_HOME, "config.ru")
     @server_opts ||= {
       :chdir                => Dir.pwd,
       :environment          => @global.environment || 'development',

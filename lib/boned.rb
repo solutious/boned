@@ -7,13 +7,18 @@ require 'attic'
 require 'gibbler/aliases'
 require 'sysinfo'
 require 'socket'
+require 'uri'
 
 unless defined?(BONED_HOME)
   BONED_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..') )
 end
 
-module Boned
-  APIVERSION = 'v1'.freeze unless defined?(APIVERSION)
+module Boned  
+  unless defined?(APIVERSION)
+    APIVERSION = 'v1'.freeze 
+    BONED_REDIS = "redis://127.0.0.1:8045/1".freeze
+  end
+  
   module VERSION
     MAJOR = 0
     MINOR = 2
@@ -33,6 +38,7 @@ module Boned
   @debug = false
   @conf  = nil
   @redis = nil
+  @redis_thread = nil
   @sysinfo = nil
   class << self
     attr_accessor :debug
@@ -46,24 +52,12 @@ module Boned
       @sysinfo 
     end
   end
-  
+    
   # Connect to Redis and Mongo. 
-  def self.connect(conf=@conf)
-    @redis = Redis.new conf[:redis]
-  end
-  
-  # Loads the yaml config files from config/
-  # * +base+ path where config dir lives
-  # * +env one of: :development, :production
-  # Returns a Hash: conf[:mongo][:host], ...
-  def self.load_config(base=Dir.pwd, env=:development)
-    @conf = {}                       
-    [:redis].each do |n|
-      Boned.ld "LOADING CONFIG: #{n}"
-      tmp = YAML.load_file(File.join(base, "config", "#{n}.yml"))
-      @conf[n] = tmp[ env.to_sym ]
-    end
-    @conf
+  def self.connect
+    update_redis_client_config
+    abort "No Redis" unless redis_available?
+    @redis = Redis.new @conf[:redis]
   end
   
   # <tt>require</tt> a library from the vendor directory.
@@ -102,6 +96,9 @@ module Boned
   # Errno::EAFNOSUPPORT, Errno::ECONNREFUSED, SocketError, Timeout::Error
   #
   def self.service_available?(host, port, wait=3)
+    a = Socket.getaddrinfo @conf[:redis][:host], @conf[:redis][:port]
+    ip_addr = a[0][3]
+    ld "SERVICE: #{host} (#{ip_addr}) #{port}"
     if Boned.sysinfo.vm == :java
       begin
         iadd = Java::InetSocketAddress.new host, port      
@@ -127,6 +124,22 @@ module Boned
     end
   end
   
+  def self.redis_available?
+    service_available? @conf[:redis][:host], @conf[:redis][:port]
+  end
+  
+  def self.update_redis_client_config(uri=nil)
+    uri ||= ENV['BONED_REDIS'] || BONED_REDIS
+    uri = URI.parse(uri)
+    @conf ||= {}
+    @conf[:redis] = {
+      :host => uri.host,
+      :port => uri.port || 8045,
+      :database => uri.path.sub(/\D/, "").to_i || 1,
+      :password => uri.user || nil
+    }
+    ld "REDIS: #{@conf[:redis].inspect}"
+  end
   
   def self.ld(*msg)
     return unless Boned.debug
@@ -134,6 +147,9 @@ module Boned
     puts "#{prefix}" << msg.join("#{$/}#{prefix}")
   end
   
+  update_redis_client_config  # parse ENV['BONED_REDIS']
 end
+
+
 
 require 'boned/models'

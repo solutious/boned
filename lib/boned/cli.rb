@@ -16,6 +16,7 @@ class Boned::CLI < Drydock::Command
   end
   
   def stop
+    Boned.stop_redis
     if not Boned.service_available?('127.0.0.1', server_opts[:port])
       raise Boned::Server::ServerNotRunning, server_opts[:port]
     end

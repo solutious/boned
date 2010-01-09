@@ -8,6 +8,7 @@ require 'gibbler/aliases'
 require 'sysinfo'
 require 'socket'
 require 'uri'
+require 'rye'
 
 unless defined?(BONED_HOME)
   BONED_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..') )
@@ -56,8 +57,26 @@ module Boned
   # Connect to Redis and Mongo. 
   def self.connect
     update_redis_client_config
+    start_redis unless redis_available?
     abort "No Redis" unless redis_available?
     @redis = Redis.new @conf[:redis]
+  end
+  
+  def self.start_redis
+    return Problem, "Redis already running" if redis_available? 
+    conf_path = File.join(BONED_HOME, 'config', 'redis-server.conf')
+    ld "REDIS SERVER CONF: #{conf_path}"
+    @redis_thread = Thread.new do
+      Rye.shell 'redis-server', conf_path
+    end
+    sleep 2  # Give redis time to start. 
+  end
+  
+  def self.stop_redis
+    ld "SHUTDOWN REDIS"
+    @redis.shutdown if redis_available? 
+    return if @redis_thread.nil? || !@redis_thread.alive?
+    @redis_thread.join
   end
   
   # <tt>require</tt> a library from the vendor directory.
@@ -149,7 +168,5 @@ module Boned
   
   update_redis_client_config  # parse ENV['BONED_REDIS']
 end
-
-
 
 require 'boned/models'

@@ -5,6 +5,7 @@ BONED, CHANGES
 * FIXED: Missing config.ru error
 * FIXED: Redis available check
 * CHANGE: Use BONED_REDIS variable instead of redis.yml file
+* CHANGE: Start redis server if not running
 
 
 #### 0.1.0 (2009-12-13) ###############################

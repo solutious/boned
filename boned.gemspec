@@ -1,8 +1,8 @@
 @spec = Gem::Specification.new do |s|
   s.name = "boned"
   s.rubyforge_project = 'boned'
-  s.version = "0.2.0"
-  s.summary = "Get Bones"
+  s.version = "0.2.1"
+  s.summary = "The bone daemon"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
   s.email = "delano@solutious.com"
@@ -22,13 +22,11 @@
   LICENSE.txt
   README.md
   Rakefile
+  api/api-set.rb
+  api/api.rb
   bin/boned
   boned.gemspec
   config.ru
-  config/redis-default.yml
-  config/redis-server-default.conf
-  config/stella/api-set.rb
-  config/stella/api.rb
   lib/boned.rb
   lib/boned/api.rb
   lib/boned/api/debug.rb

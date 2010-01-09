@@ -70,7 +70,7 @@ module Boned
     conf_path = File.join(BONED_HOME, 'config', 'redis-server.conf')
     ld "REDIS SERVER CONF: #{conf_path}"
     @redis_thread = Thread.new do
-      Rye.shell 'redis-server', conf_path
+      system 'redis-server', conf_path
     end
     sleep 2  # Give redis time to start. 
   end
@@ -78,9 +78,9 @@ module Boned
   def self.stop_redis
     ld "SHUTDOWN REDIS #{redis_available?}"
     ld @redis.inspect
-    @redis.shutdown if !@redis.nil?  && redis_available? 
+    # Shutdown command returns "-ERR operation not permitted" ??
+    @redis.shutdown if !@redis.nil?  && redis_available? rescue nil
     return if @redis_thread.nil? || !@redis_thread.alive?
-    @redis_thread.join
   end
   
   # <tt>require</tt> a library from the vendor directory.

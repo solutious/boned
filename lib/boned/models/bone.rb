@@ -102,7 +102,6 @@ class Bone < Boned::Model
       clean = []
       dirty.each { |k| 
         next if k.match(/prop\z/); 
-        p k
         clean << k.split(':')[4..-1].join(':') 
       }
       clean

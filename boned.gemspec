@@ -1,7 +1,7 @@
 @spec = Gem::Specification.new do |s|
   s.name = "boned"
   s.rubyforge_project = 'boned'
-  s.version = "0.2.1"
+  s.version = "0.2.2"
   s.summary = "The bone daemon"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
@@ -27,6 +27,7 @@
   bin/boned
   boned.gemspec
   config.ru
+  config/redis-server.conf
   lib/boned.rb
   lib/boned/api.rb
   lib/boned/api/debug.rb

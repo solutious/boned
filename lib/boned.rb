@@ -55,15 +55,18 @@ module Boned
   end
     
   # Connect to Redis and Mongo. 
-  def self.connect
+  def self.connect(start_redis=true)
     update_redis_client_config
-    start_redis unless redis_available?
-    abort "No Redis" unless redis_available?
+    ld "CONNECT: start_redis(#{start_redis})"
+    if start_redis 
+      self.start_redis
+      abort "No Redis" unless redis_available?
+    end
     @redis = Redis.new @conf[:redis]
   end
   
   def self.start_redis
-    return Problem, "Redis already running" if redis_available? 
+    return if redis_available? 
     conf_path = File.join(BONED_HOME, 'config', 'redis-server.conf')
     ld "REDIS SERVER CONF: #{conf_path}"
     @redis_thread = Thread.new do
@@ -73,8 +76,9 @@ module Boned
   end
   
   def self.stop_redis
-    ld "SHUTDOWN REDIS"
-    @redis.shutdown if redis_available? 
+    ld "SHUTDOWN REDIS #{redis_available?}"
+    ld @redis.inspect
+    @redis.shutdown if !@redis.nil?  && redis_available? rescue nil
     return if @redis_thread.nil? || !@redis_thread.alive?
     @redis_thread.join
   end

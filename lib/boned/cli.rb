@@ -4,11 +4,9 @@ require 'pp'
 class Boned::CLI < Drydock::Command
   attr_accessor :exit_code
   
-  def init
-    Boned.connect
-  end
   
   def start
+    Boned.connect
     if Boned.service_available?('127.0.0.1', server_opts[:port])
       raise Boned::Server::ServerRunning, server_opts[:port]
     end
@@ -16,7 +14,8 @@ class Boned::CLI < Drydock::Command
   end
   
   def stop
-    Boned.stop_redis
+    Boned.connect(false)
+    Boned.stop_redis 
     if not Boned.service_available?('127.0.0.1', server_opts[:port])
       raise Boned::Server::ServerNotRunning, server_opts[:port]
     end

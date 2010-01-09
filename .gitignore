@@ -1,5 +1,4 @@
 redis.yml
 dump.rdb
-redis-server.conf
 log
 tmp

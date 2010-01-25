@@ -44,13 +44,15 @@ module Boned
   class << self
     attr_accessor :debug
     attr_reader :conf
-    attr_accessor :redis
     def debug?() @debug == true end
     def enable_debug() @debug = true end
     def disable_debug() @debug = false end
     def sysinfo
       @sysinfo = SysInfo.new.freeze if @sysinfo.nil?
       @sysinfo 
+    end
+    def redis() 
+      @redis || Boned.connect
     end
   end
     

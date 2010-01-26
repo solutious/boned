@@ -6,7 +6,7 @@
 ## Running
     
     $ redis-server config/redis-server.conf
-    $ export BONED_REDIS=redis://localhost:4111/1
+    $ export BONED_REDIS=redis://localhost:8045/1
     $ boned start
     
     

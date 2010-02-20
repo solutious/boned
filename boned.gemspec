@@ -1,17 +1,19 @@
 @spec = Gem::Specification.new do |s|
   s.name = "boned"
   s.rubyforge_project = 'boned'
-  s.version = "0.2.4"
+  s.version = "0.2.5"
   s.summary = "The bone daemon"
   s.description = s.summary
   s.author = "Delano Mandelbaum"
   s.email = "delano@solutious.com"
-  s.homepage = ""
+  s.homepage = "http://github.com/solutious/boned"
   
   s.extra_rdoc_files = %w[README.md LICENSE.txt CHANGES.txt]
   s.has_rdoc = true
   s.rdoc_options = ["--line-numbers", "--title", s.summary, "--main", "README.md"]
   s.require_paths = %w[lib]
+  
+  s.add_dependency 'bone',    '= 0.2.6'
   
   s.executables = %w[boned]
   

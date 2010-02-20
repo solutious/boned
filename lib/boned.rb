@@ -23,7 +23,7 @@ module Boned
   module VERSION
     MAJOR = 0
     MINOR = 2
-    TINY  = 4
+    TINY  = 5
     PATCH = '001'
     def self.inspect; [to_s, PATCH].join('.'); end
     def self.to_s; [MAJOR, MINOR, TINY].join('.'); end

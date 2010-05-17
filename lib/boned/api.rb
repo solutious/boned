@@ -8,10 +8,6 @@ class Boned::API < Sinatra::Base
   set :views => 'views/'
   set :static => true
   
-  before do
-    puts ENV['RACK_ENV']
-  end
-  
   configure :development do
     before do
       Boned.enable_debug

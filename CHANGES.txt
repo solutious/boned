@@ -1,5 +1,9 @@
 BONED, CHANGES
 
+#### 0.2.6 (2010-05-17) ###############################
+
+* CHANGE: Require rubygems in bin/boned
+
 #### 0.2.5 (2010-02-20) ###############################
 
 * CHANGE: Remove hanna dependency

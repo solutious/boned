@@ -1,4 +1,4 @@
-# Rackup - GetBones.com
+# Rackup - Bonery.com
 # 2009-12-11
 
 ENV['RACK_ENV'] ||= 'production'

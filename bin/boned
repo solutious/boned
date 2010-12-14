@@ -30,7 +30,7 @@ class Boned::CLI::Definition
   default :info
   
   global :V, :version, "Display version" do
-    puts "Boned: #{Boned::VERSION} (api: #{Boned::APIVERSION})"
+    puts "Boned: #{Boned::VERSION} (api: #{Bone::APIVERSION})"
     exit
   end
   

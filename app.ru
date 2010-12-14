@@ -13,19 +13,16 @@ disable :run    # disable sinatra's auto-application starting
 
 configure :production do
   Boned.debug = false
-  
-  map("/bone/#{Boned::APIVERSION}/")  { run Boned::API::Service      }
-  
+  map("/#{Bone::APIVERSION}/")  { run Boned::API               }
 end
 
 configure :development do
   use Rack::ShowExceptions
   
-  require 'boned/api/debug'
-  require 'boned/api/redis'
+  #require 'boned/api/debug'
+  #require 'boned/api/redis'
   
-  map("/bone/#{Boned::APIVERSION}/")  { run Boned::API::Service      }
-  map("/debug")                       { run Boned::API::Debug        }  
-  map("/redis")                       { run Boned::API::RedisViewer  }
-
+  map("/#{Bone::APIVERSION}/")  { run Boned::API               }
+  #map("/debug")                 { run Boned::API::Debug        }  
+  #map("/redis")                 { run Boned::API::RedisViewer  }
 end

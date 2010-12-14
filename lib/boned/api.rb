@@ -21,7 +21,7 @@ class Boned::API < Boned::APIBase
   get "/:token/key/:key/?" do
     carefully do
       bone = Bone.new params[:token]
-      bone[params[:key]]
+      bone.key?(params[:key]) ? bone[params[:key]] : generic_error
     end
   end
   
@@ -37,13 +37,20 @@ class Boned::API < Boned::APIBase
     carefully do
       bone = Bone.new params[:token]
       # list of buckets, currently hardcoded to global
-      bone.token?(params[:token]) ? 'global' : ''
+      bone.token?(params[:token]) ? 'global' : generic_error
     end
   end
   
   post "/register/:token/?" do
     carefully do
       token = Bone.register_token params[:token], request.body.read.strip # no leading/trail whitspace
+      token.nil? ? generic_error : token
+    end
+  end
+  
+  post "/generate/?" do
+    carefully do
+      token = Bone.generate_token request.body.read.strip # no leading/trail whitspace
       token.nil? ? generic_error : token
     end
   end

@@ -10,7 +10,6 @@ class Boned::APIBase < Sinatra::Base
     Bone.info "Environment: #{ENV['RACK_ENV']}"
     register Sinatra::Reloader
     dont_reload "lib/**/*.rb"
-    also_reload "lib/api/*.rb"
     also_reload "lib/api.rb"
     before do
       #Bone.debug = true
@@ -33,8 +32,8 @@ class Boned::APIBase < Sinatra::Base
       #rescue Boned::BadBone => ex
       #  return error(404, ex.message)
       rescue => ex
-        Boned.ld "#{current_token}:#{params[:key]}", ex.message
-        Boned.ld ex.backtrace
+        Bone.ld "#{current_token}:#{params[:key]}", ex.message
+        Bone.ld ex.backtrace
         return error(400, "Bad bone rising")
       end
       ret

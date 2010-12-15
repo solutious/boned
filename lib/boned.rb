@@ -9,7 +9,7 @@ local_libs.each { |dir|
   $:.unshift a
 }
 
-class Boned
+module Boned
   module VERSION
     def self.to_s
       load_config
@@ -27,7 +27,7 @@ end
 require 'bone'
 
 module Boned
-  Bone.source = 'redis://root@localhost:6379'
+  Bone.source = 'redis://root@localhost:8045'
   #Bone.debug = true
 end
 

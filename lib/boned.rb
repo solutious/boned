@@ -28,7 +28,7 @@ require 'bone'
 
 module Boned
   Bone.source = 'redis://root@localhost:8045'
-  #Bone.debug = true
+  Bone.debug = false
 end
 
 

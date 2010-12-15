@@ -10,10 +10,10 @@ class Boned::APIBase < Sinatra::Base
     Bone.info "Environment: #{ENV['RACK_ENV']}"
     register Sinatra::Reloader
     dont_reload "lib/**/*.rb"
-    also_reload "lib/api.rb"
+    also_reload "lib/boned.rb"
     before do
       #Bone.debug = true
-      Bone.info "#{request_method} #{current_uri_path} (#{params.inspect})"
+      Bone.info "--> #{request_method} #{current_uri_path}"
       content_type 'text/plain'
     end
   end
@@ -29,23 +29,33 @@ class Boned::APIBase < Sinatra::Base
     def carefully(ret='', &blk)
       begin
         ret = blk.call
-      #rescue Boned::BadBone => ex
-      #  return error(404, ex.message)
       rescue => ex
-        Bone.ld "#{current_token}:#{params[:key]}", ex.message
-        Bone.ld ex.backtrace
-        return error(400, "Bad bone rising")
+        generic_error ex.class, ex
       end
       ret
     end 
     
-    def generic_error
-      return error(404, "Unknown resource")
+    def generic_error(event=nil, ex=nil)
+      Bone.info "#{event} #{request_token}:#{request_signature}" unless event.nil?
+      Bone.ld ex.message, ex.backtrace unless ex.nil?
+      return error(404, "Bad bone rising")
     end
     
-    def current_token() @env['HTTP_X_BONE_TOKEN'] || params[:token] end
-    def current_sig() @env['HTTP_X_BONE_SIGNATURE'] || params[:sig] end
-  
+    def error_message msg
+      return error(400, msg)
+    end
+    
+    def request_token
+      env['HTTP_X_BONE_TOKEN'] || params[:token] 
+    end
+    def request_signature
+      env['HTTP_X_BONE_SIGNATURE'] || params[:sig]
+    end
+    def request_secret
+      # no leading/trail whitspace end
+      (env['HTTP_X_BONE_SECRET'] || request.body.read).strip 
+    end
+    
     def uri(*path)
       [root_path, path].flatten.join('/')
     end
@@ -67,30 +77,39 @@ class Boned::APIBase < Sinatra::Base
       LOCAL_HOSTS.member?(env['SERVER_NAME']) && (client_ipaddress == '127.0.0.1')
     end
     
+    def assert_token
+      assert_exists request_token, "No token"
+    end
+    
+    def assert_secret
+      assert_exists request_secret, "No secret"
+    end
+    
+    def check_signature
+      assert_exists request_signature, "No signature"
+      # TODO
+    end
+    
     # +names+ One or more a required parameter names (Symbol)
     def assert_params(*names)
       names.each do |n|
-        if params[n].nil? || params[n].empty?
-          return error(400, "Missing param: %s" % n)
-        end
+        return error_message("Missing param: %s" % n) if params[n].to_s.empty?
       end
+      true
     end
     alias_method :assert_param, :assert_params
-
+    
     def assert_exists(val, msg)
-      return error(400, msg) if val.nil? || val.to_s.empty?
-    end
-
-    def assert_true(val, msg)
-      return error(400, msg) if val == true
+      return error_message msg if val.to_s.empty?
+      true
     end
     
     def assert_sha1(val)
-      return error(400, "#{val} is not a sha1 digest") unless is_sha1?(val)
+      return error_message("#{val} is not a sha1 digest") unless is_sha1?(val)
     end
     
     def assert_sha256(val)
-      return error(400, "#{val} is not a sha256 digest") unless is_sha256?(val)
+      return error_message("#{val} is not a sha256 digest") unless is_sha256?(val)
     end
     
     def is_sha1?(val)

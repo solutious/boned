@@ -30,18 +30,19 @@ Bone.destroy_token 'bogus'
 Bone['bogus']
 #=> nil
 
-## Bone.keys returns nil when no keys
+## Bone.keys returns empty array
 Bone.keys
-#=> nil
+#=> []
 
 ## Bone.set 
 Bone['akey1'] = 'value1'
 Bone['akey2'] = 'value2'
+Bone['akey2']
 #=> 'value2'
 
 ## Bone.get
-Bone['akey2']
-#=> 'value2'
+Bone['akey1']
+#=> 'value1'
 
 ## Bone.keys
 Bone.keys.sort

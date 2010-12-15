@@ -26,9 +26,20 @@ end
 
 require 'bone'
 
+Bone.source = 'redis://localhost:8045'
+Bone.debug = false
+
 module Boned
-  Bone.source = 'redis://root@localhost:8045'
-  Bone.debug = false
+  @allow_register = false
+  class << self
+    attr_reader :allow_register
+    # Disabled the API method for regsitering given tokens.
+    # The value is automatically frozen so it will only
+    # work once per instance of Ruby.
+    def allow_register= v
+      @allow_register = v.freeze unless @allow_register.frozen?
+    end
+  end
 end
 
 

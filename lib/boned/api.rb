@@ -20,7 +20,7 @@ class Boned::API < Boned::APIBase
   
   get "/:token/key/:key/?" do
     carefully do
-      assert_token
+      assert_token && check_token
       check_signature
       bone = Bone.new request_token
       bone.key?(params[:key]) ? bone[params[:key]] : generic_error
@@ -29,7 +29,7 @@ class Boned::API < Boned::APIBase
   
   get "/:token/keys/?" do
     carefully do
-      assert_token
+      assert_token && check_token
       check_signature
       bone = Bone.new request_token
       list = bone.keys || []
@@ -39,7 +39,7 @@ class Boned::API < Boned::APIBase
       
   get "/:token/?" do
     carefully do
-      assert_token
+      assert_token && check_token
       check_signature
       bone = Bone.new request_token
       # list of buckets, currently hardcoded to global
@@ -47,30 +47,13 @@ class Boned::API < Boned::APIBase
     end
   end
   
-  post "/generate/?" do
-    carefully do
-      secret = request.body.read.strip # no leading/trail whitspace
-      token = Bone.generate_token secret
-      token.nil? ? generic_error : token
-    end
-  end
-  
   post "/:token/key/:key/?" do
     carefully do
-      assert_token
+      assert_token && check_token
       check_signature
       bone = Bone.new request_token
       value = request.body.read # don't modify content in any way
       bone.set params[:key], value
-    end
-  end
-  
-  post "/register/:token/?" do
-    carefully do
-      assert_secret
-      generic_error "[rereg-attempt]" if Bone.token? request_token
-      token = Bone.register_token request_token, request_secret
-      token.nil? ? generic_error("[register-failed]") : token
     end
   end
   
@@ -79,6 +62,23 @@ class Boned::API < Boned::APIBase
       assert_token && check_token
       check_signature
       Bone.destroy_token request_token
+    end
+  end
+  
+  post "/generate/?" do
+    carefully do
+      token = Bone.generate_token secret
+      token.nil? ? generic_error : token
+    end
+  end
+  
+  post "/register/:token/?" do
+    carefully do
+      generic_secret '[register-disabled]' unless Boned.allow_register
+      assert_secret
+      generic_error "[rereg-attempt]" if Bone.token? request_token
+      token = Bone.register_token request_token, request_secret
+      token.nil? ? generic_error("[register-failed]") : token
     end
   end
   

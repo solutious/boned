@@ -22,6 +22,7 @@ class Boned::APIBase < Sinatra::Base
     Bone.debug = false
     before do
       content_type 'application/json'
+      Boned.allow_register = false
     end
   end
   

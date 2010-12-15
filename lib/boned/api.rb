@@ -77,17 +77,11 @@ class Boned::API < Boned::APIBase
       generic_error '[register-disabled]' unless Boned.allow_register
       assert_secret
       generic_error "[rereg-attempt]" if Bone.token? request_token
-      token = Bone.register_token request_token, request_secret
+      token = Bone.register request_token, request_secret
       token.nil? ? generic_error("[register-failed]") : token
     end
   end
   
-  helpers do
-    def check_token
-      generic_error "[unknown-token]" if !Bone.token? request_token
-      true
-    end
-  end
 end
 
 

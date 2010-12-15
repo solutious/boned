@@ -89,7 +89,12 @@ class Boned::APIBase < Sinatra::Base
     
     def check_signature
       assert_exists request_signature, "No signature"
-      # TODO
+      
+    end
+    
+    def check_token
+      generic_error "[unknown-token]" if !Bone.token? request_token
+      true
     end
     
     # +names+ One or more a required parameter names (Symbol)

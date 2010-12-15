@@ -5,12 +5,12 @@ require 'boned'
 Bone.source = "http://localhost:3073"  
 Bone.credentials = 'atoken:crystal'
 
-## Bone.register_token
-Bone.register_token Bone.token, Bone.secret
+## Bone.register
+Bone.register Bone.token, Bone.secret
 #=> 'atoken'
 
-## Bone.register_token is not possible for existing key
-Bone.register_token Bone.token, Bone.secret
+## Bone.register is not possible for existing key
+Bone.register Bone.token, Bone.secret
 #=> nil
 
 ## Bone.generate
@@ -34,20 +34,4 @@ Bone['bogus']
 Bone.keys
 #=> []
 
-## Bone.set 
-Bone['akey1'] = 'value1'
-Bone['akey2'] = 'value2'
-Bone['akey2']
-#=> 'value2'
-
-## Bone.get
-Bone['akey1']
-#=> 'value1'
-
-## Bone.keys
-Bone.keys.sort
-#=> ['akey1', 'akey2']
-
-
-Bone.keys
 Bone.destroy_token Bone.token

@@ -9,10 +9,25 @@ local_libs.each { |dir|
   $:.unshift a
 }
 
+class Boned
+  module VERSION
+    def self.to_s
+      load_config
+      [@version[:MAJOR], @version[:MINOR], @version[:PATCH]].join('.')
+    end
+    alias_method :inspect, :to_s
+    def self.load_config
+      require 'yaml'
+      @version ||= YAML.load_file(File.join(BONED_HOME, '..', 'VERSION.yml'))
+    end
+  end
+end
+
+
 require 'bone'
 
 module Boned
-  Bone.source = 'redis://root@localhost:8045'
+  Bone.source = 'redis://root@localhost:6379'
   #Bone.debug = true
 end
 

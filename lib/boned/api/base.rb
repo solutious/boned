@@ -15,6 +15,7 @@ class Boned::APIBase < Sinatra::Base
       #Bone.debug = true
       Bone.info "--> #{request_method} #{current_uri_path}"
       content_type 'text/plain'
+      Boned.allow_register = true
     end
   end
   

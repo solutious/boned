@@ -13,8 +13,8 @@ Bone.register_token Bone.token, Bone.secret
 Bone.register_token Bone.token, Bone.secret
 #=> nil
 
-## Bone.generate_token
-@token = Bone.generate_token(Bone.secret) || ''
+## Bone.generate
+@token = Bone.generate(Bone.secret) || ''
 @token.size
 #=> 40
 

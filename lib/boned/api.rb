@@ -67,14 +67,14 @@ class Boned::API < Boned::APIBase
   
   post "/generate/?" do
     carefully do
-      token = Bone.generate_token secret
-      token.nil? ? generic_error : token
+      token, secret = *Bone.generate
+      token.nil? ? generic_error : [token, secret].join($/)
     end
   end
   
   post "/register/:token/?" do
     carefully do
-      generic_secret '[register-disabled]' unless Boned.allow_register
+      generic_error '[register-disabled]' unless Boned.allow_register
       assert_secret
       generic_error "[rereg-attempt]" if Bone.token? request_token
       token = Bone.register_token request_token, request_secret

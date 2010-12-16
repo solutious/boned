@@ -46,7 +46,7 @@ class Boned::API < Boned::APIBase
   get "/:token/?" do
     carefully do
       assert_token && check_token
-      @bone = check_signature
+      bone = check_signature
       # list of buckets, currently hardcoded to global
       bone.token?(request_token) ? 'global' : generic_error
     end
@@ -87,18 +87,7 @@ class Boned::API < Boned::APIBase
   end
   
   helpers do
-    #Bone.debug = true
-    def check_signature
-      assert_exists request_signature, "No signature"
-      bone = Bone.new request_token
-      #p request_signature
-      #y request.params
-      bone
-    end
-    
-    def current_secret
-      Bone.secret
-    end
+    Bone.debug = true
     
   end
 end

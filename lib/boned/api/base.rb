@@ -70,9 +70,11 @@ class Boned::APIBase < Sinatra::Base
       env['REQUEST_URI']
     end
     def request_method
-      env['REQUEST_METHOD']
+      env['REQUEST_METHOD'].to_s.downcase  # important to be downcase for signature check
     end
-    
+    def current_host
+      env['HTTP_HOST'].to_s.downcase
+    end
     def secure?
       (env['HTTP_X_SCHEME'] == "https")  # X-Scheme is set by nginx
     end
@@ -94,6 +96,21 @@ class Boned::APIBase < Sinatra::Base
     def check_token
       generic_error "[unknown-token]" if !Bone.token? request_token
       true
+    end
+    
+    def check_signature
+      assert_exists request_signature, "No signature"
+      bone = Bone.new request_token
+      tobj = Bone::API::Redis::Token.new request_token
+      secret = tobj.secret.value
+      path = current_uri_path.split('?').first
+      local_sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, request.params
+      generic_error '[sig-mismatch]' unless request_signature == local_sig
+      #p local_sig
+      #p [current_host, request_method, path]
+      #p request_signature
+      #y request.params
+      bone
     end
     
     # +names+ One or more a required parameter names (Symbol)

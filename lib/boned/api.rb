@@ -3,11 +3,19 @@ require 'boned/api/base'
 
 class Boned::API < Boned::APIBase
 
+  # TODO: Remove these.
   get '/all' do
     keys = Bone::API::Redis::Token.redis.keys '*'
     keys.join $/
+  end  
+  get "/:token/secret/?" do
+    carefully do
+      assert_token && check_token
+      bone = check_signature
+      bone.secret
+    end
   end
-    
+  
   #get "/:token/:bucket/keys/?" do
   #  Bone.info 
   #  "poop"
@@ -21,8 +29,7 @@ class Boned::API < Boned::APIBase
   get "/:token/key/:key/?" do
     carefully do
       assert_token && check_token
-      check_signature
-      bone = Bone.new request_token
+      bone = check_signature
       bone.key?(params[:key]) ? bone[params[:key]] : generic_error
     end
   end
@@ -30,18 +37,16 @@ class Boned::API < Boned::APIBase
   get "/:token/keys/?" do
     carefully do
       assert_token && check_token
-      check_signature
-      bone = Bone.new request_token
+      bone = check_signature
       list = bone.keys || []
       list.join $/
     end
   end
-      
+  
   get "/:token/?" do
     carefully do
       assert_token && check_token
-      check_signature
-      bone = Bone.new request_token
+      @bone = check_signature
       # list of buckets, currently hardcoded to global
       bone.token?(request_token) ? 'global' : generic_error
     end
@@ -50,8 +55,7 @@ class Boned::API < Boned::APIBase
   post "/:token/key/:key/?" do
     carefully do
       assert_token && check_token
-      check_signature
-      bone = Bone.new request_token
+      bone = check_signature
       value = request.body.read # don't modify content in any way
       bone.set params[:key], value
     end
@@ -60,7 +64,7 @@ class Boned::API < Boned::APIBase
   delete "/destroy/:token/?" do
     carefully do
       assert_token && check_token
-      check_signature
+      bone = check_signature
       Bone.destroy request_token
     end
   end
@@ -83,10 +87,21 @@ class Boned::API < Boned::APIBase
   end
   
   helpers do
+    #Bone.debug = true
     def check_signature
       assert_exists request_signature, "No signature"
-      p request_signature
+      bone = Bone.new request_token
+      secret = Bone::API::Redis.secret request_token
+      p secret  # TODO: secret is not being set
+      #p request_signature
+      #y request.params
+      bone
     end
+    
+    def current_secret
+      Bone.secret
+    end
+    
   end
 end
 

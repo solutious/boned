@@ -27,4 +27,4 @@ Bone.keys.sort
 
 ## Bone.destroy
 Bone.destroy Bone.token
-## 
+##=> true

@@ -3,14 +3,18 @@ require 'boned'
 Bone.source = "http://localhost:3073"  
 Bone.credentials = '20_keys_try:crystal'
 
+## Bone.credentials
+[Bone.token, Bone.secret]
+#=> ['20_keys_try', 'crystal']
+
 ## Bone.register
 Bone.register Bone.token, Bone.secret
-##=> '20_keys_try'
+#=> '20_keys_try'
 
 ## Bone.set 
 Bone['akey1'] = 'value1'
 Bone['akey1']
-#=> 'value1'
+##=> 'value1'
 
 ## Bone.set 
 Bone['akey2'] = 'value2'
@@ -27,4 +31,4 @@ Bone.keys.sort
 
 ## Bone.destroy
 Bone.destroy Bone.token
-##=> true
+#=> true

@@ -51,12 +51,13 @@ class Boned::APIBase < Sinatra::Base
       env['HTTP_X_BONE_TOKEN'] || params[:token] 
     end
     def request_signature
-      @signature ||= env['HTTP_X_BONE_SIGNATURE'] || request.params.delete('sig')
-      @signature
+      @request_signature ||= env['HTTP_X_BONE_SIGNATURE'] || request.params.delete('sig')
+      @request_signature
     end
     def request_secret
       # no leading/trail whitspace end
-      (env['HTTP_X_BONE_SECRET'] || request.body.read).strip 
+      @request_secret ||= (env['HTTP_X_BONE_SECRET'] || request.body.read).strip 
+      @request_secret
     end
     
     def uri(*path)

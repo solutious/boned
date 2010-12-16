@@ -91,8 +91,6 @@ class Boned::API < Boned::APIBase
     def check_signature
       assert_exists request_signature, "No signature"
       bone = Bone.new request_token
-      secret = Bone::API::Redis.secret request_token
-      p secret  # TODO: secret is not being set
       #p request_signature
       #y request.params
       bone

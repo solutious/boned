@@ -61,7 +61,7 @@ class Boned::API < Boned::APIBase
     carefully do
       assert_token && check_token
       check_signature
-      Bone.destroy_token request_token
+      Bone.destroy request_token
     end
   end
   
@@ -82,6 +82,12 @@ class Boned::API < Boned::APIBase
     end
   end
   
+  helpers do
+    def check_signature
+      assert_exists request_signature, "No signature"
+      p request_signature
+    end
+  end
 end
 
 

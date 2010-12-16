@@ -19,11 +19,11 @@ Bone.register Bone.token, Bone.secret
 #=> 40
 
 ## Can destroy a token
-Bone.destroy_token @token
+Bone.destroy @token
 #=> true
 
 ## Cannot destroy a token that doesn't exist
-Bone.destroy_token 'bogus'
+Bone.destroy 'bogus'
 #=> false
 
 ## Bone.get returns nil for bad key
@@ -34,4 +34,4 @@ Bone['bogus']
 Bone.keys
 #=> []
 
-Bone.destroy_token Bone.token
+Bone.destroy Bone.token

@@ -1,12 +1,11 @@
 require 'boned'
 #Bone.debug = true
 Bone.source = "http://localhost:3073"  
-Bone.credentials = "#{__FILE__}:crystal"
+Bone.credentials = "11_signature:crystal"
 
 ## Bone.register
 Bone.register Bone.token, Bone.secret
-#=> 'atoken'
+#=> '11_signature'
 
 
-
-Bone.destroy_token Bone.token
+Bone.destroy Bone.token

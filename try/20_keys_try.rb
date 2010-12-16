@@ -5,20 +5,26 @@ Bone.credentials = '20_keys_try:crystal'
 
 ## Bone.register
 Bone.register Bone.token, Bone.secret
-#=> 'atoken'
+##=> '20_keys_try'
 
 ## Bone.set 
 Bone['akey1'] = 'value1'
-Bone['akey2'] = 'value2'
-Bone['akey2']
-#=> 'value2'
-
-## Bone.get
 Bone['akey1']
 #=> 'value1'
 
+## Bone.set 
+Bone['akey2'] = 'value2'
+Bone['akey2']
+##=> 'value2'
+
+## Bone.get
+Bone['akey1']
+##=> 'value1'
+
 ## Bone.keys
 Bone.keys.sort
-#=> ['akey1', 'akey2']
+##=> ['akey1', 'akey2']
 
-Bone.destroy_token Bone.token
+## Bone.destroy
+Bone.destroy Bone.token
+## 

@@ -7,14 +7,19 @@
 ## Running
     
     $ redis-server path/2/redis-server.conf
-    $ export BONED_SOURCE=redis://localhost:6379/
     
-    $ boned -e prod start
+    $ BONED_SOURCE=redis://localhost:6379/   boned -e prod start
     
 ## Running as a daemon ##
     
-    $ boned -e prod -d start
+    $ BONED_SOURCE=redis://localhost:6379/   boned -e prod -d start
     $ boned -e prod -d stop
+
+## Updating bone configuration ##
+
+You need to tell bone to use the HTTP API. In your .bashrc or equivalent, add:
+    
+    export BONE_SOURCE=http://127.0.0.1:3073/
     
 ## Installation
 

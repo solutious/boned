@@ -56,7 +56,7 @@ class Boned::API < Boned::APIBase
     carefully do
       assert_token && check_token
       bone = check_signature
-      value = request.body.read # don't modify content in any way
+      value = body_content # don't modify content in any way
       bone.set params[:key], value
     end
   end
@@ -87,7 +87,7 @@ class Boned::API < Boned::APIBase
   end
   
   helpers do
-    #Bone.debug = true
+    Bone.debug = true
   end
 end
 

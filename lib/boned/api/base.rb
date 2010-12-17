@@ -60,8 +60,12 @@ class Boned::APIBase < Sinatra::Base
     end
     def request_secret
       # no leading/trail whitspace end
-      @request_secret ||= (request.body.read || env['HTTP_X_BONE_SECRET']).strip 
+      @request_secret ||= (body_content || env['HTTP_X_BONE_SECRET']).strip 
       @request_secret
+    end
+    def body_content
+      @body_content ||= request.body.read 
+      @body_content
     end
     
     def uri(*path)
@@ -95,8 +99,6 @@ class Boned::APIBase < Sinatra::Base
       assert_exists request_secret, "No secret"
     end
     
-    
-    
     def check_token
       generic_error "[unknown-token]" if !Bone.token? request_token
       true
@@ -112,7 +114,7 @@ class Boned::APIBase < Sinatra::Base
       # including the value of the POST body as a key with no value.
       qs = Bone::API::HTTP.parse_query request.query_string
       qs.delete 'sig' # Yo dawg, I put a signature in your signature
-      sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, qs
+      sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, qs, body_content
       generic_error "[sig-mismatch] #{sig}" if sig != request_signature
       Bone.new request_token
     end

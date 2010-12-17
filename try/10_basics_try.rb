@@ -19,7 +19,7 @@ Bone.register Bone.token, Bone.secret
 #=> 24
 
 ## Can destroy a token
-Bone.destroy @token, @secret
+Bone.destroy @token
 #=> true
 
 ## Cannot destroy a token that doesn't exist

@@ -1,12 +1,12 @@
-## Boned - 0.2 ##
+## Boned - 0.3 ##
 
-**Bones it!**
+**Remote environment variables**
 
 
 ## Running
     
     $ redis-server config/redis-server.conf
-    $ export BONED_REDIS=redis://localhost:8045/1
+    $ export BONED_SOURCE=redis://localhost:8045/
     $ boned start
     
     
@@ -19,10 +19,12 @@ You also need to install [redis](http://code.google.com/p/redis/).
 
 ## More Information
 
+See [bone](https://github.com/solutious/bone). 
+
 
 ## Credits
 
-* Delano Mandelbaum (http://solutious.com)
+* [Delano Mandelbaum](http://solutious.com)
 
 
 ## Thanks 

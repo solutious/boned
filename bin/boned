@@ -1,74 +1,9 @@
-#!/usr/bin/ruby
+#!/bin/sh
 
-# = Boned
-# 
-#
 # Usage:
-# 
-#     $ boned -h
-#     $ boned [-d] start-master
 #
-#--
-
-# Put our local lib in first place
-BASE_PATH = File.expand_path File.join(File.dirname(__FILE__), '..')
-lib_dir = File.join(BASE_PATH, 'lib')
-$:.unshift lib_dir  
-#$:.unshift '/Users/delano/Projects/opensource/drydock/lib'
-
-require 'rubygems'
-require 'drydock'
-require 'boned'
-require 'boned/cli'
-
-# Command-line interface for bin/stella
-class Boned::CLI::Definition
-  extend Drydock
-
-  debug :off
-  
-  default :info
-  
-  global :V, :version, "Display version" do
-    puts "Boned: #{Boned::VERSION} (api: #{Bone::APIVERSION})"
-    exit
-  end
-  
-  global :R, :rackup, String, "Specify a rackup file"
-  global :e, :environment, String, "Rack environment"
-  global :v, :verbose, "Increase output" do; 1 end
-  global :d, :daemon, "Run as a daemon"
-  global :p, :port, Integer, "Port to run on"
-  global :D, :debug do
-    Drydock.debug true
-    Boned.enable_debug
-  end
-  
-  command :start => Boned::CLI
-  command :stop => Boned::CLI
-  command :stop_redis => Boned::CLI
-  command :info => Boned::CLI
-  
-end
-
-  
-begin
-  Drydock.run!(ARGV, STDIN) if Drydock.run? && !Drydock.has_run?
-rescue Boned::Problem => ex
-  STDERR.puts ex.message
-  STDERR.puts ex.backtrace if Drydock.debug?
-  exit 1
-rescue Drydock::ArgError, Drydock::OptError => ex
-  STDERR.puts ex.message
-  STDERR.puts ex.usage
-rescue Drydock::InvalidArgument => ex
-  STDERR.puts ex.message
-rescue Drydock::UnknownCommand => ex
-  STDERR.puts "Unknown command: %s" % ex.name
-rescue Interrupt
-  puts $/, "Exiting... "
-  exit 1
-rescue => ex
-  STDERR.puts "ERROR (#{ex.class.to_s}): #{ex.message}"
-  STDERR.puts ex.backtrace if Drydock.debug?
-end
+#    bin/boned -e dev start
+#    bin/boned -e prod -d start
+#    bin/boned -e prod stop
+#
+thin -p 3073 -P /tmp/boned.pid --rackup app.ru -l /tmp/boned.log $*

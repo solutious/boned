@@ -1,7 +1,7 @@
 # Rackup - Boned
 # 2009-12-11
 
-# thin -p 3073 -P /tmp/bonery_delano.pid --rackup app.ru -e dev -l /tmp/bonery_delano.log start
+# bin/boned -e dev start
 
 ENV['RACK_ENV'] ||= 'production'
 ENV['APP_ROOT'] = ::File.expand_path(::File.join(::File.dirname(__FILE__)))

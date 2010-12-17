@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/ruby
 
 # Usage:
 #
@@ -6,4 +6,6 @@
 #    bin/boned -e prod -d start
 #    bin/boned -e prod stop
 #
-thin -p 3073 -P /tmp/boned.pid --rackup app.ru -l /tmp/boned.log $*
+
+# Rubygems assumes this file contains Ruby code
+exec "thin -p 3073 -P /tmp/boned.pid --rackup app.ru -l /tmp/boned.log #{ARGV.join(' ')}"

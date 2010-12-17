@@ -6,10 +6,15 @@
 
 ## Running
     
-    $ redis-server config/redis-server.conf
-    $ export BONED_SOURCE=redis://localhost:8045/
-    $ boned start
+    $ redis-server path/2/redis-server.conf
+    $ export BONED_SOURCE=redis://localhost:6379/
     
+    $ boned -e prod start
+    
+## Running as a daemon ##
+    
+    $ boned -e prod -d start
+    $ boned -e prod -d stop
     
 ## Installation
 

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Delano Mandelbaum"]
-  s.date = %q{2010-12-15}
+  s.date = %q{2010-12-17}
   s.default_executable = %q{boned}
   s.description = %q{HTTP server companion for Bone (remote environment variables)}
   s.email = %q{delano@solutious.com}
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "LICENSE.txt",
      "README.md",
      "Rakefile",
+     "VERSION.yml",
      "api/api-set.rb",
      "api/api.rb",
      "app.ru",
@@ -35,7 +36,9 @@ Gem::Specification.new do |s|
      "lib/boned/api/base.rb",
      "lib/boned/app.rb",
      "public/index.html",
-     "try/10_bone_model.rb",
+     "try/10_basics_try.rb",
+     "try/11_signature_try.rb",
+     "try/20_keys_try.rb",
      "views/redisviewer/keys.erb"
   ]
   s.homepage = %q{https://github.com/solutious/boned}

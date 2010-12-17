@@ -4,17 +4,17 @@ require 'boned/api/base'
 class Boned::API < Boned::APIBase
 
   # TODO: Remove these.
-  get '/all' do
-    keys = Bone::API::Redis::Token.redis.keys '*'
-    keys.join $/
-  end  
-  get "/:token/secret/?" do
-    carefully do
-      assert_token && check_token
-      bone = check_signature
-      bone.secret
-    end
-  end
+  ##get '/all' do
+  ##  keys = Bone::API::Redis::Token.redis.keys '*'
+  ##  keys.join $/
+  ##end  
+  ##get "/:token/secret/?" do
+  ##  carefully do
+  ##    assert_token && check_token
+  ##    bone = check_signature
+  ##    bone.secret
+  ##  end
+  ##end
   
   #get "/:token/:bucket/keys/?" do
   #  Bone.info 

@@ -113,7 +113,7 @@ class Boned::APIBase < Sinatra::Base
       qs = Bone::API::HTTP.parse_query request.query_string
       qs.delete 'sig' # Yo dawg, I put a signature in your signature
       sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, qs
-      generic_error "[sig-mismatch] #{local_sig}" if sig != request_signature
+      generic_error "[sig-mismatch] #{sig}" if sig != request_signature
       Bone.new request_token
     end
 

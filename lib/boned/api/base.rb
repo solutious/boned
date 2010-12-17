@@ -106,14 +106,18 @@ class Boned::APIBase < Sinatra::Base
     
     def check_signature
       assert_exists request_signature, "No signature"
-      assert_true params[:sigversion] == Bone::API::HTTP::SIGVERSION, "Bad API version: #{params[:sigversion]}"
-      tobj = Bone::API::Redis::Token.new request_token
-      secret = tobj.secret.value
-      path = current_uri_path.split('?').first
+      unless params[:sigversion] == Bone::API::HTTP::SIGVERSION
+        error_message "API must be version: #{Bone::API::HTTP::SIGVERSION}"
+      end
       # We need to re-parse the query string b/c Sinatra or Rack is
       # including the value of the POST body as a key with no value.
       qs = Bone::API::HTTP.parse_query request.query_string
       qs.delete 'sig' # Yo dawg, I put a signature in your signature
+      stamp, now = (qs['stamp'] || 0).to_i, Bone::API::HTTP.canonical_time
+      generic_error "[sig-expired] #{stamp}" if (now - stamp) > 30.seconds
+      tobj = Bone::API::Redis::Token.new request_token
+      secret = tobj.secret.value
+      path = current_uri_path.split('?').first
       sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, qs, body_content
       generic_error "[sig-mismatch] #{sig}" if sig != request_signature
       Bone.new request_token

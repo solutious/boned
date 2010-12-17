@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
   <head>
-    <title>: Boned::VERSION [The bone daemon]</title>
-    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <title>: Boned::VERSION [boned 0.3.0.]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
     <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
       //<![CDATA[
@@ -41,92 +41,49 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000032">inspect</a></li>
-              <li><a href="#M000035">patch</a></li>
-              <li><a href="#M000034">to_f</a></li>
-              <li><a href="#M000033">to_s</a></li>
+              <li><a href="#M000003">load_config</a></li>
+              <li><a href="#M000002">to_s</a></li>
             </ol>
           </div>
           <div id='section'>
-            <div id='constants-list'>
-              <h2>Constants</h2>
+            <div id='aliases-list'>
+              <h2>External Aliases</h2>
               <div class='name-list'>
-                <table summary='Constants'>
+                <table summary='External aliases'>
                   <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>MAJOR</td>
-                    <td>=</td>
-                    <td class='context-item-value'>0</td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>MINOR</td>
-                    <td>=</td>
-                    <td class='context-item-value'>2</td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>TINY</td>
-                    <td>=</td>
-                    <td class='context-item-value'>6</td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>PATCH</td>
-                    <td>=</td>
-                    <td class='context-item-value'>'001'</td>
+                    <td class='context-item-name'>to_s</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'>inspect</td>
                   </tr>
                 </table>
               </div>
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='method public-class' id='method-M000032'>
-                <a name='M000032'>      </a>
+              <div class='method public-class' id='method-M000003'>
+                <a name='M000003'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>inspect</span>
+                  <span class='name'>load_config</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000032-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000003-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000032-source'>    <span class="ruby-comment cmt"># File lib/boned.rb, line 28</span>&#x000A;28:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">inspect</span>; [<span class="ruby-identifier">to_s</span>, <span class="ruby-constant">PATCH</span>].<span class="ruby-identifier">join</span>(<span class="ruby-value str">'.'</span>); <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000003-source'><span class="ruby-comment cmt"># File lib/boned.rb, line 19</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">load_config</span>&#x000A;      <span class="ruby-identifier">require</span> <span class="ruby-value str">'yaml'</span>&#x000A;      <span class="ruby-ivar">@version</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">BONED_HOME</span>, <span class="ruby-value str">'..'</span>, <span class="ruby-value str">'VERSION.yml'</span>))&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-class' id='method-M000035'>
-                <a name='M000035'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>patch</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000035-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000035-source'>    <span class="ruby-comment cmt"># File lib/boned.rb, line 31</span>&#x000A;31:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">patch</span>; <span class="ruby-constant">PATCH</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000034'>
-                <a name='M000034'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>to_f</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000034-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000034-source'>    <span class="ruby-comment cmt"># File lib/boned.rb, line 30</span>&#x000A;30:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_f</span>; <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">to_f</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-M000033'>
-                <a name='M000033'>      </a>
+              <div class='method public-class' id='method-M000002'>
+                <a name='M000002'>      </a>
                 <div class='synopsis'>
                   <span class='name'>to_s</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000033-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000002-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000033-source'>    <span class="ruby-comment cmt"># File lib/boned.rb, line 29</span>&#x000A;29:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_s</span>; [<span class="ruby-constant">MAJOR</span>, <span class="ruby-constant">MINOR</span>, <span class="ruby-constant">TINY</span>].<span class="ruby-identifier">join</span>(<span class="ruby-value str">'.'</span>); <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000002-source'><span class="ruby-comment cmt"># File lib/boned.rb, line 14</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_s</span>&#x000A;      <span class="ruby-identifier">load_config</span>&#x000A;      [<span class="ruby-ivar">@version</span>[<span class="ruby-identifier">:MAJOR</span>], <span class="ruby-ivar">@version</span>[<span class="ruby-identifier">:MINOR</span>], <span class="ruby-ivar">@version</span>[<span class="ruby-identifier">:PATCH</span>]].<span class="ruby-identifier">join</span>(<span class="ruby-value str">'.'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

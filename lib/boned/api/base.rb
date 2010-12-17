@@ -13,7 +13,7 @@ class Boned::APIBase < Sinatra::Base
     also_reload "lib/boned.rb"
     before do
       #Bone.debug = true
-      Bone.info "--> #{request_method} #{current_uri_path}"
+      Bone.info $/, $/, "--> #{request_method} #{current_uri_path}"
       content_type 'text/plain'
       Boned.allow_register = true
     end
@@ -39,11 +39,15 @@ class Boned::APIBase < Sinatra::Base
     
     def generic_error(event=nil, ex=nil)
       Bone.info "#{event} #{request_token}:#{request_signature}" unless event.nil?
-      Bone.ld ex.message, ex.backtrace unless ex.nil?
+      unless ex.nil?
+        Bone.info ex.message
+        Bone.ld ex.backtrace 
+      end
       return error(404, "Bad bone rising")
     end
     
     def error_message msg
+      Bone.info "[400] #{msg}"
       return error(400, msg)
     end
     
@@ -51,12 +55,12 @@ class Boned::APIBase < Sinatra::Base
       env['HTTP_X_BONE_TOKEN'] || params[:token] 
     end
     def request_signature
-      @request_signature ||= env['HTTP_X_BONE_SIGNATURE'] || request.params.delete('sig')
+      @request_signature ||= params[:sig] || env['HTTP_X_BONE_SIGNATURE']
       @request_signature
     end
     def request_secret
       # no leading/trail whitspace end
-      @request_secret ||= (env['HTTP_X_BONE_SECRET'] || request.body.read).strip 
+      @request_secret ||= (request.body.read || env['HTTP_X_BONE_SECRET']).strip 
       @request_secret
     end
     
@@ -100,18 +104,19 @@ class Boned::APIBase < Sinatra::Base
     
     def check_signature
       assert_exists request_signature, "No signature"
-      bone = Bone.new request_token
+      assert_true params[:sigversion] == Bone::API::HTTP::SIGVERSION, "Bad API version: #{params[:sigversion]}"
       tobj = Bone::API::Redis::Token.new request_token
       secret = tobj.secret.value
       path = current_uri_path.split('?').first
-      local_sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, request.params
-      generic_error '[sig-mismatch]' unless request_signature == local_sig
-      #p local_sig
-      #p [current_host, request_method, path]
-      #p request_signature
-      #y request.params
-      bone
+      # We need to re-parse the query string b/c Sinatra or Rack is
+      # including the value of the POST body as a key with no value.
+      qs = Bone::API::HTTP.parse_query request.query_string
+      qs.delete 'sig' # Yo dawg, I put a signature in your signature
+      sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, qs
+      generic_error "[sig-mismatch] #{local_sig}" if sig != request_signature
+      Bone.new request_token
     end
+
     
     # +names+ One or more a required parameter names (Symbol)
     def assert_params(*names)
@@ -124,6 +129,11 @@ class Boned::APIBase < Sinatra::Base
     
     def assert_exists(val, msg)
       return error_message msg if val.to_s.empty?
+      true
+    end
+    
+    def assert_true(val, msg)
+      return error_message msg if val != true
       true
     end
     

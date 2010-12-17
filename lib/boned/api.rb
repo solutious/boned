@@ -87,8 +87,7 @@ class Boned::API < Boned::APIBase
   end
   
   helpers do
-    Bone.debug = true
-    
+    #Bone.debug = true
   end
 end
 

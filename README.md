@@ -2,6 +2,7 @@
 
 **Remote environment variables**
 
+*NOTE: This version is not compatible with previous versions of Bone.*
 
 ## Running
     

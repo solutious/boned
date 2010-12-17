@@ -18,7 +18,7 @@ module Boned
     alias_method :inspect, :to_s
     def self.load_config
       require 'yaml'
-      @version ||= YAML.load_file(File.join(BONED_HOME, '..', 'VERSION.yml'))
+      @version ||= YAML.load_file(File.join(BONED_HOME, 'VERSION.yml'))
     end
   end
 end

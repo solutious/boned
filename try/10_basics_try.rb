@@ -14,12 +14,12 @@ Bone.register Bone.token, Bone.secret
 #=> nil
 
 ## Bone.generate
-@token = Bone.generate(Bone.secret) || ''
+@token, @secret = *Bone.generate
 @token.size
-#=> 40
+#=> 24
 
 ## Can destroy a token
-Bone.destroy @token
+Bone.destroy @token, @secret
 #=> true
 
 ## Cannot destroy a token that doesn't exist

@@ -118,8 +118,9 @@ class Boned::APIBase < Sinatra::Base
       generic_error "[sig-expired] #{stamp}" if (now - stamp) > 30.seconds
       tobj = Bone::API::Redis::Token.new request_token
       secret = tobj.secret.value
+      host = '%s://%s' % [secure? ? 'https' : 'http', current_host]
       path = current_uri_path.split('?').first
-      sig = Bone::API::HTTP.generate_signature secret, current_host, request_method, path, qs, body_content
+      sig = Bone::API::HTTP.generate_signature secret, host, request_method, path, qs, body_content
       generic_error "[sig-mismatch] #{sig}" if sig != request_signature
       Bone.new request_token
     end

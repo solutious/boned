@@ -1,5 +1,8 @@
 # try try/10_basics_try.rb
 
+# An instance of boned must be running:
+# ruby -rubygems bin/boned -e dev -d start
+
 require 'boned'
 #Bone.debug = true
 Bone.source = "http://localhost:3073"  

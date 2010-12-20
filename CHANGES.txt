@@ -3,6 +3,8 @@ BONED, CHANGES
 #### 0.3.2 (2010-12-20) ###############################
 
 * FIXED: Boned.allow_register
+* CHANGE: check_signature adds http/https to host uri
+
 
 #### 0.3.1 (2010-12-17) ###############################
 

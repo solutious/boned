@@ -25,8 +25,8 @@ begin
     gem.email = "delano@solutious.com"
     gem.homepage = "https://github.com/solutious/boned"
     gem.authors = ["Delano Mandelbaum"]
-    gem.add_dependency("bone",            ">= 0.3.1")
-    gem.add_dependency("sinatra",         ">= 1.0.0")
+    gem.add_dependency("bone",            ">= 0.3.2")
+    gem.add_dependency("sinatra",         ">= 1.1.0")
     gem.add_dependency("thin")
   end
   Jeweler::GemcutterTasks.new

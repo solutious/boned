@@ -7,7 +7,9 @@ class Boned::APIBase < Sinatra::Base
   set :static => true
   
   configure :dev do
+    Boned.allow_register = true
     Bone.info "Environment: #{ENV['RACK_ENV']}"
+    Bone.info "Register enabled: #{Boned.allow_register}"
     register Sinatra::Reloader
     dont_reload "lib/**/*.rb"
     also_reload "lib/boned.rb"
@@ -15,7 +17,6 @@ class Boned::APIBase < Sinatra::Base
       #Bone.debug = true
       Bone.info $/, $/, "--> #{request_method} #{current_uri_path}"
       content_type 'text/plain'
-      Boned.allow_register = true
     end
   end
   

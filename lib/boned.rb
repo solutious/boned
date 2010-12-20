@@ -37,7 +37,8 @@ module Boned
     # The value is automatically frozen so it will only
     # work once per instance of Ruby.
     def allow_register= v
-      @allow_register = v.freeze unless @allow_register.frozen?
+      @allow_register = v
+      @allow_register.freeze unless @allow_register.frozen?
     end
   end
 end

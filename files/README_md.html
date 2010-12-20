@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
   <head>
-    <title>File: README.md [boned 0.3.1.]</title>
+    <title>File: README.md [boned 0.3.2.]</title>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
     <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
@@ -31,7 +31,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>2010-12-17 16:18:00 -0500</span>
+          <span class='datetime'>2010-12-17 18:24:25 -0500</span>
         </div>
       </div>
       <div id='content'>
@@ -49,7 +49,19 @@
             <p>
             ## Running
             </p>
-            <pre>$ redis-server config/redis-server.conf&#x000A;$ export BONED_SOURCE=redis://localhost:8045/&#x000A;$ boned start</pre>
+            <pre>$ redis-server path/2/redis-server.conf&#x000A;&#x000A;$ BONED_SOURCE=redis://localhost:6379/   boned -e prod start</pre>
+            <p>
+            ## Running as a daemon ##
+            </p>
+            <pre>$ BONED_SOURCE=redis://localhost:6379/   boned -e prod -d start&#x000A;$ boned -e prod -d stop</pre>
+            <p>
+            ## Updating bone configuration ##
+            </p>
+            <p>
+            You need to tell bone to use the HTTP API. In your .bashrc or equivalent,
+            add:
+            </p>
+            <pre>export BONE_SOURCE=http://127.0.0.1:3073/</pre>
             <p>
             ## Installation
             </p>

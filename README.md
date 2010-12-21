@@ -20,6 +20,10 @@
 You need to tell bone to use the HTTP API. In your .bashrc or equivalent, add:
     
     export BONE_SOURCE=http://127.0.0.1:3073/
+
+## The Bonery ##
+
+You can use the Bone daemon hosted at [The Bonery](http://bonery.com/). You'll need to [generate a token](https://api.bonery.com/signup/alpha) and set your BONE_SOURCE to ttps://api.bonery.com/.
     
 ## Installation
 

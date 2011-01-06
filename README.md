@@ -1,6 +1,6 @@
 ## Boned - 0.3 ##
 
-**Remote environment variables**
+**Rudimentary Redis over HTTP(S) (the HTTP server companion for Bone)**
 
 *NOTE: This version is not compatible with previous versions of Bone.*
 
